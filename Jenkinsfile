@@ -17,9 +17,11 @@ pipeline {
                 }
                 }
        stage('Login') {
-      
+            steps {
             withDockerRegistry(credentialsId: 'Docker_credentials', url: 'https://hub.docker.com/repository/docker/mbaig2k7/docker_images/general') {
     
 }          }
 }
+}
+
 }
