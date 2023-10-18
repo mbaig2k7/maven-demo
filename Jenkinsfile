@@ -16,12 +16,24 @@ pipeline {
          
                 }
                 }
-       stage('Login') {
+       stage('Docker Login') {
             steps {
-            withDockerRegistry(credentialsId: 'Docker_credentials', url: 'https://hub.docker.com/repository/docker/mbaig2k7/docker_images/general') {
-    
-}          }
-}
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'Docker_credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Use the 'withCredentials' block to securely provide credentials
+
+                        def dockerRegistryURL = 'hub.docker.com'
+                        def dockerImageName = 'my-image:1.0.0'
+
+                        sh """
+                            echo \${DOCKER_PASSWORD} | docker login --username \${DOCKER_USERNAME} --password-stdin \${dockerRegistryURL}
+                            docker pull \${dockerRegistryURL}/\${dockerImageName}
+                            docker run -d \${dockerRegistryURL}/\${dockerImageName}
+                        """
+                    }
+                }
+            }
+        }
 }
 
 }
