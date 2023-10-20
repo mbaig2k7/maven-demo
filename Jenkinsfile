@@ -12,7 +12,7 @@ pipeline {
                 }
         stage("Docker") {
             steps {
-                    sh 'docker build . -t my-image:1.0.2'
+                    sh 'docker build . -t mbaig2k7/my-image:1.0.2'
          
                 }
                 }
