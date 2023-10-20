@@ -27,7 +27,7 @@ pipeline {
 
                         sh """
                             echo \${DOCKER_PASSWORD} | docker login --username \${DOCKER_USERNAME} --password-stdin \${dockerRegistryURL}
-                            docker push docker.io/mbaig2k7/my-image
+                            docker push docker.io/mbaig2k7/my-image:1.0.0
                         """
                     }
                 }
