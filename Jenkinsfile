@@ -12,8 +12,8 @@ pipeline {
                 }
       stage('sonar Analysis') {
            steps {
-               sh ''' mvn sonar:sonar -Dsonar.host.url= \
-                  -Dsonar.login=squ_0800cfaf731cf33f30a78e941a21ca66ac19133e \
+               sh ''' mvn sonar:sonar -Dsonar.host.url=http://3.143.233.224:9000 \
+                  -Dsonar.login=squ_f30a4cd9017d1be5544d4e9feb376f510c64436f \
                   -Dsonar.java.binaries=. \
                   -Dsonar.projectkey=maven-demo '''
            }
