@@ -10,15 +10,7 @@ pipeline {
          
                 }
                 }
-      stage('sonar Analysis') {
-           steps {
-               sh ''' mvn sonar:sonar -Dsonar.host.url=http://3.143.233.224:8000 \
-                  -Dsonar.login=squ_e236d488c28493f0da768f61239d65a3bf785cb3 \
-                  -Dsonar.java.binaries=. \
-                  -Dsonar.projectkey=maven-demo '''
-           }
-        }
-        stage("Docker") {
+       stage("Docker") {
             steps {
                     sh 'docker build . -t myimages:1.0.3'
          
