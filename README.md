@@ -25,3 +25,13 @@ You'll see the tests have been run and a jar has been built and put in the *targ
 This is a test.  
 
 test
+
+
+ stage('sonar Analysis') {
+           steps {
+               sh ''' mvn sonar:sonar -Dsonar.host.url=http://3.143.233.224:8000 \
+                  -Dsonar.login=squ_e236d488c28493f0da768f61239d65a3bf785cb3 \
+                  -Dsonar.java.binaries=. \
+                  -Dsonar.projectkey=maven-demo '''
+           }
+        }
