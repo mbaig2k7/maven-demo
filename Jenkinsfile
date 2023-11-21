@@ -1,5 +1,13 @@
 pipeline {
   agent any
+  environment {
+        // Set your Kubernetes cluster configuration
+        KUBE_CONFIG = credentials('kube-config-id')
+        // Set the Kubernetes namespace
+        NAMESPACE = 'examplepod'
+        // Set the name of your Kubernetes deployment
+        DEPLOYMENT_NAME = 'your-deployment-name'
+    }
      tools { 
         maven 'maven' 
         }
@@ -10,14 +18,7 @@ pipeline {
          
                 }
                 }
-      stage('sonar Analysis') {
-           steps {
-               sh ''' mvn sonar:sonar -Dsonar.host.url=http://3.143.233.224:8000 \
-                  -Dsonar.login=squ_e236d488c28493f0da768f61239d65a3bf785cb3 \
-                  -Dsonar.java.binaries=. \
-                  -Dsonar.projectkey=maven-demo '''
-           }
-        }
+     
         stage("Docker") {
             steps {
                     sh 'docker build . -t myimages:1.0.3'
@@ -41,6 +42,17 @@ pipeline {
                 }
             }
         }
+      stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    // Configure kubectl with the provided kubeconfig
+                    withKubeConfig(credentialsId: 'kube-config-id', serverUrl: 'https://your-kube-api-server') {
+                        // Deploy the application to Kubernetes
+                        sh "kubectl apply -f kubernetes-manifests/deployment.yaml --namespace=${NAMESPACE}"
+                    }
+                }
+            }
+      }
 }
 
 }
